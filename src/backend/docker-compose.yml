@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: posta
+      POSTGRES_PASSWORD: posta
+      POSTGRES_DB: posta_urgencias
+    ports:
+      - "55432:5432"
+    volumes:
+      - posta_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  posta_postgres_data:

@@ -12,6 +12,12 @@ dueño: compartido
 
 | ID  | Descripción | Quién la necesita | Quién la resuelve | Estado | Bloqueo | Fecha |
 | --- | ----------- | ----------------- | ----------------- | ------ | ------- | ----- |
+| DEP-001 | fase-0 de `triaje` existe con nombre de archivo incorrecto (`fase-0/triaje.com` en vez de `fase-0/triaje.md`), aunque su contenido está completo y `congelada: true`. Tratado como válido por decisión explícita del dueño de sesión (Santiago) el 2026-07-01 — no bloquea Fase 1 de `triaje` | A | C | resuelto (pendiente solo renombrar el archivo) | local (triaje) | 2026-07-01 |
+| DEP-002 | fase-0 de `bot-ivr-urgencias` no existe o no está congelada | A | C | pendiente | local (bot-ivr-urgencias) | 2026-07-01 |
+| DEP-003 | fase-0 de `historial-clinico` no existe o no está congelada | A | C | pendiente | local (historial-clinico) | 2026-07-01 |
+| DEP-004 | fase-0 de `notificaciones` no existe o no está congelada | A | C | pendiente | local (notificaciones) | 2026-07-01 |
+| DEP-005 | fase-0 de `dashboard-enfermero` no existe o no está congelada | A | C | pendiente | local (dashboard-enfermero) | 2026-07-01 |
+| DEP-006 | fase-0 de `dashboard-medico` no existe o no está congelada | A | C | pendiente | local (dashboard-medico) | 2026-07-01 |
 
 ## Regla de bloqueo local
 
