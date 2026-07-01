@@ -12,6 +12,8 @@ dueño: compartido
 
 | ID negocio (fase-0) | Backend (A) | Frontend (B) | Dependencia (si aplica) | Estado | Evidencia |
 | ------------------- | ----------- | ------------ | ----------------------- | ------ | --------- |
+| registro-pacientes | ✅ cerrado | ⬜ pendiente | Ninguna — base del dominio | parcial (backend listo, falta frontend) | `avance-backend.md` Log de avance 2026-07-01: 100% cobertura branch, DIP OK, bandit/gitleaks OK, OpenAPI sin drift, smoke E2E contra PostgreSQL real |
+| triaje | ✅ cerrado | ⬜ pendiente | registro-pacientes (búsqueda por DNI, reutilizada vía `PacienteLookupPort`) | parcial (backend listo, falta frontend) | `avance-backend.md` Log de avance 2026-07-01: 100% cobertura branch, DIP OK, bandit/gitleaks OK, OpenAPI sin drift, smoke E2E contra PostgreSQL real |
 
 ## Regla de integridad numérica
 
