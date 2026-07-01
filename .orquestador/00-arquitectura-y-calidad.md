@@ -165,14 +165,14 @@ que B empiece esa pieza específica.
 > Solo se llena si §1 o §2 se reabren después de congelados.
 
 | Fecha | Qué se reabrió | Alternativas consideradas | Decisión | Consecuencias aceptadas |
-| ----- | -------------- | ------------------------- | -------- | ----------------------- |
+| ----- | --------------- | -------------------------- | -------- | ------------------------- |
 
 ---
 
 ## Cierre
 
 Las 4 secciones tienen decisión explícita marcada — ninguna casilla
-"Otra: \_\_\_" sin su justificación llena.
+"Otra: ___" sin su justificación llena.
 
     estado: congelada
     congelada: true
