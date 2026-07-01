@@ -1,7 +1,7 @@
 ---
 version: 1.0.0
 estado: activo
-proyecto: [nombre del proyecto]
+proyecto: Sistema de Gestión de Urgencias y Triaje — Posta Médica Rural
 ---
 # Índice — .orquestador/
 
@@ -18,13 +18,24 @@ archivo antes de tocar cualquier otro documento o código.
 | `ledger-dependencias.md` | Compartido | Al aparecer un bloqueo cruzado real | Cualquiera añade fila, nadie borra fila ajena |
 | `trazabilidad.md` | Compartido | Al cerrar cualquier pieza | Cualquiera añade fila, nadie edita fila ajena |
 | `contratos/openapi.json` | A escribe · B lee | Tras cada cambio de endpoint | B nunca edita a mano |
-| `00-arquitectura-y-calidad.md` | C | Una vez, antes del primer fase-0/{modulo}.md | A y B leen, nunca editan — cambios requieren ADR-lite §5 |
+| `00-arquitectura-y-calidad.md` | C | Congelada — cambios requieren ADR-lite §5 | A y B leen, nunca editan |
 
 ## Módulos del proyecto — estado de Fase 0
 
 | Módulo | Fase 0 | Fase 1 backend | Fase 1 frontend |
 |---|---|---|---|
-| [nombre] | ⬜ pendiente / 🟡 en progreso / ✅ congelada | ⬜/🔵/✅ | ⬜/🔵/✅ |
+| `registro-pacientes` | 🟡 en progreso | ⬜ | ⬜ |
+| `historial-clinico` | ⬜ pendiente | ⬜ | ⬜ |
+| `bot-ivr-urgencias` | ⬜ pendiente | ⬜ | ⬜ |
+| `triaje` | ⬜ pendiente | ⬜ | ⬜ |
+| `dashboard-enfermero` | ⬜ pendiente | ⬜ | ⬜ |
+| `dashboard-medico` | ⬜ pendiente | ⬜ | ⬜ |
+| `notificaciones` | ⬜ pendiente | ⬜ | ⬜ |
+
+**Orden de dependencia declarado (no arbitrario):** `registro-pacientes`
+va primero porque `triaje`, `historial-clinico` y `bot-ivr-urgencias`
+dependen del modelo `Usuario`/`Paciente`/`usuario_paciente` definido
+en `00-arquitectura-y-calidad.md` §4.
 
 ## Checklist de reentrada (agente retomando sesión interrumpida)
 
