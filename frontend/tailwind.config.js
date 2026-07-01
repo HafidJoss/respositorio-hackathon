@@ -1,0 +1,77 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        "on-primary": "#ffffff",
+        "on-tertiary-fixed-variant": "#93000a",
+        "outline-variant": "#c3c5d7",
+        "surface": "#f8f9fa",
+        "on-secondary-container": "#006171",
+        "secondary-container": "#55e0fe",
+        "on-surface-variant": "#434654",
+        "surface-container-lowest": "#ffffff",
+        "surface-container-highest": "#e1e3e4",
+        "surface-container": "#edeeef",
+        "primary-fixed": "#dbe1ff",
+        "error-container": "#ffdad6",
+        "inverse-surface": "#2e3132",
+        "on-tertiary": "#ffffff",
+        "tertiary-container": "#c50514",
+        "surface-container-high": "#e7e8e9",
+        "on-background": "#191c1d",
+        "surface-container-low": "#f3f4f5",
+        "error": "#ba1a1a",
+        "surface-dim": "#d9dadb",
+        "secondary-fixed-dim": "#49d7f6",
+        "tertiary": "#99000b",
+        "outline": "#737686",
+        "surface-variant": "#e1e3e4",
+        "on-error-container": "#93000a",
+        "primary-fixed-dim": "#b5c4ff",
+        "primary": "#003fb1", // Default to blue primary from login
+        "tertiary-fixed-dim": "#ffb4ab",
+        "secondary-fixed": "#abedff",
+        "secondary": "#00687a",
+        "on-tertiary-container": "#ffd3ce",
+        "on-primary-fixed-variant": "#003dab",
+        "on-error": "#ffffff",
+        "inverse-primary": "#b5c4ff",
+        "surface-tint": "#1353d8",
+        "on-secondary": "#ffffff",
+        "on-primary-fixed": "#00174d",
+        "on-primary-container": "#d4dcff",
+        "surface-bright": "#f8f9fa",
+        "on-secondary-fixed": "#001f26",
+        "background": "#f8f9fa",
+        "on-secondary-fixed-variant": "#004e5c",
+        "inverse-on-surface": "#f0f1f2",
+        "tertiary-fixed": "#ffdad6",
+        "primary-container": "#1a56db",
+        "on-tertiary-fixed": "#410002",
+        "on-surface": "#191c1d",
+        "accent-gold": "#DBC81A"
+      },
+      borderRadius: {
+        "DEFAULT": "0.25rem",
+        "lg": "0.5rem",
+        "xl": "0.75rem",
+        "full": "9999px"
+      },
+      spacing: {
+        "stack-lg": "24px",
+        "container-padding-desktop": "32px",
+        "container-padding-mobile": "16px",
+        "stack-md": "16px",
+        "gutter": "20px",
+        "stack-sm": "8px",
+        "base": "4px"
+      }
+    },
+  },
+  plugins: [],
+}

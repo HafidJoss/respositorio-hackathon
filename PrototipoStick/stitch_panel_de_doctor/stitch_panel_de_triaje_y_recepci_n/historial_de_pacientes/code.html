@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Historial de Pacientes - MedMonitor Pro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-primary": "#b5c4ff",
+                        "on-primary-fixed": "#00174d",
+                        "surface-dim": "#d9dadb",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f8f9fa",
+                        "secondary": "#00687a",
+                        "on-tertiary-fixed-variant": "#93000a",
+                        "surface-container": "#edeeef",
+                        "primary": "#003fb1",
+                        "outline-variant": "#c3c5d7",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f8f9fa",
+                        "primary-fixed-dim": "#b5c4ff",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb4ab",
+                        "primary-container": "#1a56db",
+                        "on-secondary-fixed": "#001f26",
+                        "outline": "#737686",
+                        "on-tertiary-fixed": "#410002",
+                        "surface-container-highest": "#e1e3e4",
+                        "inverse-on-surface": "#f0f1f2",
+                        "error": "#ba1a1a",
+                        "surface-container-low": "#f3f4f5",
+                        "on-surface": "#191c1d",
+                        "on-tertiary-container": "#ffd3ce",
+                        "secondary-container": "#55e0fe",
+                        "secondary-fixed": "#abedff",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#1353d8",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#434654",
+                        "on-error-container": "#93000a",
+                        "on-background": "#191c1d",
+                        "on-primary-fixed-variant": "#003dab",
+                        "surface-variant": "#e1e3e4",
+                        "inverse-surface": "#2e3132",
+                        "on-secondary-fixed-variant": "#004e5c",
+                        "secondary-fixed-dim": "#49d7f6",
+                        "on-primary-container": "#d4dcff",
+                        "surface-container-high": "#e7e8e9",
+                        "surface": "#f8f9fa",
+                        "tertiary-container": "#c50514",
+                        "tertiary-fixed": "#ffdad6",
+                        "on-secondary-container": "#006171",
+                        "tertiary": "#99000b",
+                        "primary-fixed": "#dbe1ff",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "gutter": "20px",
+                        "stack-md": "16px",
+                        "stack-lg": "24px",
+                        "stack-sm": "8px",
+                        "container-padding-mobile": "16px",
+                        "container-padding-desktop": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-tabular": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "data-tabular": ["16px", {"lineHeight": "24px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .data-card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 63, 177, 0.05), 0 2px 4px -1px rgba(0, 63, 177, 0.03);
+        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-container-padding-mobile h-16 z-50 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline fixed top-0">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-primary">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a female doctor in her late 40s, wearing a white clinical coat and a stethoscope. She has a friendly, authoritative expression. The lighting is bright and sterile, consistent with a high-end medical facility. The background is a soft-focus medical office with clean lines and blue accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8F1cari9sYPsDd4y9s9nk0QgTl4eMSYYGEowuAn7OCNOAGsMxtzoyuoAGkiSC4J7ExWStnv5UocjHvf7k0Yj-qtn4w7QpO6CLEAhdXZkZEBRJaIWbQoGCdtOl4FdjvAWmHhtHqkzk5WAOEWtcboWDSi2AiNpzICKt-nDH8pDIP8D3ndmsQknECmKojbR2Ls2_lEqxlktaka2CVfz4McLzaRqjl8--vM0MVhvMpcco_YGbTn4_NQtSyQxp5C5E94VmzvloYGCWsrc"/>
+</div>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-inverse-primary">Historial de Pacientes</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors duration-200 text-on-surface-variant">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 mt-16 mb-20 px-4 md:px-container-padding-desktop py-6 max-w-4xl mx-auto w-full">
+<!-- Search and Filter Section -->
+<section class="space-y-stack-md mb-stack-lg">
+<!-- Search Bar -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="w-full pl-12 pr-4 py-3 bg-surface border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md text-on-surface" placeholder="Buscar por DNI o Nombre..." type="text"/>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 overflow-x-auto scrollbar-hide py-1">
+<button class="px-5 py-2 rounded-full bg-primary text-on-primary font-label-md transition-colors whitespace-nowrap">Hoy</button>
+<button class="px-5 py-2 rounded-full bg-surface border border-outline-variant text-on-surface-variant font-label-md hover:bg-surface-container transition-colors whitespace-nowrap">Semana</button>
+<button class="px-5 py-2 rounded-full bg-surface border border-outline-variant text-on-surface-variant font-label-md hover:bg-surface-container transition-colors whitespace-nowrap">Mes</button>
+<button class="px-5 py-2 rounded-full bg-surface border border-outline-variant text-on-surface-variant font-label-md hover:bg-surface-container transition-colors whitespace-nowrap">Personalizado</button>
+</div>
+</section>
+<!-- History List -->
+<div class="space-y-4">
+<!-- Patient Card 1: CRÍTICO -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 data-card-shadow hover:border-primary transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-headline-md text-on-surface">Carlos Eduardo Méndez</h3>
+<p class="font-label-md text-on-surface-variant">DNI: 45.289.001</p>
+</div>
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary font-label-sm rounded-full tracking-wider">CRÍTICO</span>
+</div>
+<div class="flex items-center gap-2 mb-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-label-md">Hoy, 14:30 PM</span>
+<span class="mx-1">•</span>
+<span class="material-symbols-outlined text-[18px]">stethoscope</span>
+<span class="font-label-md">Urgencias</span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg mb-4">
+<p class="font-body-md text-on-surface line-clamp-2">Dolor abdominal agudo en fosa ilíaca derecha, náuseas y fiebre. Posible apendicitis en curso.</p>
+</div>
+<div class="flex justify-between items-center border-t border-outline-variant pt-4">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-lowest bg-primary-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A portrait of a male nurse in scrubs, focused and professional. Soft lighting, clean medical environment backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn6vteIum-92IFEbSTfdcYDaQD_poE3EhAaNkIbp8QIUjJqKOapj6s9nyPccmfXehbuOdVbYMTsJlqhttlvp8nCC_dUCM2jUm8ksDryErc0rAuOQIBgkPscruIruXRtJsO5fU7uF8xGL4-2HOTba7TdbidCr8A7PG3qMzBWtLvtg4FkavTMgIyskBABa0llY4QE2O3ndDK4ShtgeDpuWfaYmtiVnw_RJnu2fcb86f7qAobJsNOWY5Dzki6sLob-9Ohat1-sC7DR0U"/>
+</div>
+</div>
+<button class="flex items-center gap-1 text-primary font-label-md group-hover:underline">
+                        Ver Detalle
+                        <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</article>
+<!-- Patient Card 2: MODERADO -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 data-card-shadow hover:border-primary transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-headline-md text-on-surface">Marta Lucía Valero</h3>
+<p class="font-label-md text-on-surface-variant">DNI: 12.554.332</p>
+</div>
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container font-label-sm rounded-full tracking-wider">MODERADO</span>
+</div>
+<div class="flex items-center gap-2 mb-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-label-md">Hoy, 11:15 AM</span>
+<span class="mx-1">•</span>
+<span class="material-symbols-outlined text-[18px]">emergency</span>
+<span class="font-label-md">Triage</span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg mb-4">
+<p class="font-body-md text-on-surface line-clamp-2">Control de hipertensión arterial. Paciente refiere cefalea leve persistente durante los últimos 3 días.</p>
+</div>
+<div class="flex justify-between items-center border-t border-outline-variant pt-4">
+<p class="font-label-sm text-outline">Atendido por: Dr. Aranda</p>
+<button class="flex items-center gap-1 text-primary font-label-md group-hover:underline">
+                        Ver Detalle
+                        <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</article>
+<!-- Patient Card 3: LEVE -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 data-card-shadow hover:border-primary transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-headline-md text-on-surface">Roberto Ignacio Ruiz</h3>
+<p class="font-label-md text-on-surface-variant">DNI: 38.221.990</p>
+</div>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant font-label-sm rounded-full tracking-wider border border-outline-variant">LEVE</span>
+</div>
+<div class="flex items-center gap-2 mb-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-label-md">Hoy, 09:00 AM</span>
+<span class="mx-1">•</span>
+<span class="material-symbols-outlined text-[18px]">assignment</span>
+<span class="font-label-md">Control Rutinario</span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg mb-4">
+<p class="font-body-md text-on-surface line-clamp-2">Revisión de resultados de laboratorio anual. Valores dentro de los parámetros normales. Sin síntomas.</p>
+</div>
+<div class="flex justify-between items-center border-t border-outline-variant pt-4">
+<p class="font-label-sm text-outline">Atendido por: Dra. Gómez</p>
+<button class="flex items-center gap-1 text-primary font-label-md group-hover:underline">
+                        Ver Detalle
+                        <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</article>
+<!-- Patient Card 4: MODERADO -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-4 data-card-shadow hover:border-primary transition-colors cursor-pointer group">
+<div class="flex justify-between items-start mb-3">
+<div>
+<h3 class="font-headline-md text-on-surface">Elena Sofía Torres</h3>
+<p class="font-label-md text-on-surface-variant">DNI: 27.881.004</p>
+</div>
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container font-label-sm rounded-full tracking-wider">MODERADO</span>
+</div>
+<div class="flex items-center gap-2 mb-4 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+<span class="font-label-md">Ayer, 18:45 PM</span>
+<span class="mx-1">•</span>
+<span class="material-symbols-outlined text-[18px]">health_and_safety</span>
+<span class="font-label-md">Traumatología</span>
+</div>
+<div class="bg-surface-container-low p-3 rounded-lg mb-4">
+<p class="font-body-md text-on-surface line-clamp-2">Esguince de tobillo grado II. Se indica inmovilización y tratamiento analgésico.</p>
+</div>
+<div class="flex justify-between items-center border-t border-outline-variant pt-4">
+<p class="font-label-sm text-outline">Atendido por: Dr. Smith</p>
+<button class="flex items-center gap-1 text-primary font-label-md group-hover:underline">
+                        Ver Detalle
+                        <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center h-20 bg-surface dark:bg-inverse-surface px-2 pb-2 border-t border-outline-variant dark:border-outline">
+<!-- Alerts -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">notifications_active</span>
+<span class="font-label-sm text-label-sm">Alerts</span>
+</a>
+<!-- Feed -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">dynamic_feed</span>
+<span class="font-label-sm text-label-sm">Feed</span>
+</a>
+<!-- History (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">history</span>
+<span class="font-label-sm text-label-sm">History</span>
+</a>
+<!-- Chat -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container transition-all" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-sm text-label-sm">Chat</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for active filter chips
+        const filterChips = document.querySelectorAll('button.rounded-full');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                filterChips.forEach(c => {
+                    c.classList.remove('bg-primary', 'text-on-primary');
+                    c.classList.add('bg-surface', 'border', 'border-outline-variant', 'text-on-surface-variant');
+                });
+                chip.classList.remove('bg-surface', 'border', 'border-outline-variant', 'text-on-surface-variant');
+                chip.classList.add('bg-primary', 'text-on-primary');
+            });
+        });
+
+        // Search bar ripple/focus effect
+        const searchInput = document.querySelector('input');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.01]');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.01]');
+        });
+    </script>
+</body></html>
