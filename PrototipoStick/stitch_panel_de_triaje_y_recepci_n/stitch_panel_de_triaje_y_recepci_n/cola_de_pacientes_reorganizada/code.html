@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cola de Pacientes - Panel de Triaje</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-secondary-fixed-variant": "#004e5c",
+                      "background": "#f8f9fa",
+                      "surface-tint": "#695f00",
+                      "tertiary": "#326190",
+                      "on-surface-variant": "#4a4733",
+                      "surface-dim": "#d9dadb",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed": "#001f26",
+                      "secondary-container": "#55e0fe",
+                      "inverse-primary": "#dbc81b",
+                      "secondary": "#00687a",
+                      "primary-container": "#dbc81a",
+                      "surface-container-highest": "#e1e3e4",
+                      "on-primary-fixed": "#201c00",
+                      "primary-fixed": "#f9e53c",
+                      "on-secondary-container": "#006171",
+                      "secondary-fixed-dim": "#49d7f6",
+                      "secondary-fixed": "#abedff",
+                      "primary-fixed-dim": "#dbc81b",
+                      "surface-container-high": "#e7e8e9",
+                      "surface-variant": "#e1e3e4",
+                      "on-tertiary-fixed": "#001d35",
+                      "outline": "#7c7761",
+                      "on-tertiary-container": "#235583",
+                      "error": "#ba1a1a",
+                      "inverse-surface": "#2e3132",
+                      "inverse-on-surface": "#f0f1f2",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#191c1d",
+                      "tertiary-fixed-dim": "#9dcaff",
+                      "surface-container": "#edeeef",
+                      "on-error-container": "#93000a",
+                      "surface-container-low": "#f3f4f5",
+                      "on-tertiary-fixed-variant": "#124977",
+                      "primary": "#695f00",
+                      "tertiary-container": "#9dcaff",
+                      "on-primary-container": "#5c5300",
+                      "tertiary-fixed": "#d1e4ff",
+                      "surface-bright": "#f8f9fa",
+                      "on-secondary": "#ffffff",
+                      "outline-variant": "#cdc7ad",
+                      "on-error": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "surface": "#f8f9fa",
+                      "on-primary-fixed-variant": "#4f4700",
+                      "on-background": "#191c1d",
+                      "on-tertiary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "4px",
+                      "gutter": "12px",
+                      "xl": "32px",
+                      "md": "16px",
+                      "base": "4px",
+                      "sm": "8px",
+                      "container-margin": "16px",
+                      "lg": "24px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "label-bold": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-sm": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "label-md": ["Inter"],
+                      "body-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                      "label-bold": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-sm": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "label-md": ["11px", {"lineHeight": "14px", "fontWeight": "500"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-lg antialiased min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-container-margin h-16 bg-surface-bright dark:bg-surface-dim border-b border-surface-container-highest dark:border-outline-variant flat no shadows">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim text-[24px]">clinical_notes</span>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">Cola</h1>
+</div>
+</header>
+<!-- NavigationDrawer (Web) -->
+<nav class="hidden lg:flex flex-col h-screen fixed left-0 top-0 pt-20 bg-surface-container-low dark:bg-surface-container-lowest border-r border-surface-container-highest flat no shadows docked left-0 h-full w-72">
+<div class="px-container-margin mb-md">
+<h2 class="font-headline-sm text-headline-sm text-primary">Gestión Hospitalaria</h2>
+</div>
+<ul class="flex flex-col gap-xs px-sm">
+<!-- Active: Cola de Pacientes -->
+<li>
+<a class="flex items-center gap-md px-md py-sm bg-secondary-container text-on-secondary-container rounded-full mx-2 font-label-bold hover:bg-surface-container-high transition-colors opacity-80 transition-opacity" href="#">
+<span class="material-symbols-outlined text-[20px]">queue</span>
+                    Cola de Pacientes
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-4 py-3 text-on-surface-variant dark:text-surface-variant font-label-bold hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">emergency</span>
+                    Nuevo Triaje
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-4 py-3 text-on-surface-variant dark:text-surface-variant font-label-bold hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">history</span>
+                    Historial
+                </a>
+</li>
+<li>
+<a class="flex items-center gap-md px-4 py-3 text-on-surface-variant dark:text-surface-variant font-label-bold hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                    Configuración
+                </a>
+</li>
+</ul>
+</nav>
+<!-- Main Content -->
+<main class="pt-20 pb-20 lg:pl-72 lg:pb-0 px-container-margin lg:px-xl min-h-screen">
+<div class="max-w-5xl mx-auto py-lg flex flex-col gap-lg">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-md border-b border-surface-container-highest pb-sm">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Pacientes Pendientes</h2>
+<p class="font-body-md text-on-surface-variant mt-xs">12 pacientes esperando en sala.</p>
+</div>
+<div class="flex gap-sm w-full md:w-auto">
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+<input class="w-full pl-xl pr-md py-sm bg-surface-container-lowest border border-surface-container-highest rounded-full font-body-sm text-on-surface focus:outline-none focus:border-[#1ABDDB] focus:ring-1 focus:ring-[#1ABDDB] transition-all" placeholder="Buscar por DNI o Nombre" type="text"/>
+</div>
+</div>
+</div>
+<!-- Dashboard Overview -->
+<div class="grid grid-cols-3 gap-md">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex items-center justify-between">
+<div>
+<p class="font-body-sm text-on-surface-variant uppercase tracking-wider">Críticos (Rojo)</p>
+<p class="font-headline-lg text-error font-bold">2</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-error-container">warning</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex items-center justify-between">
+<div>
+<p class="font-body-sm text-on-surface-variant uppercase tracking-wider">Moderados (Naranja)</p>
+<p class="font-headline-lg text-[#F97316] font-bold">4</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#EA580C]">schedule</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex items-center justify-between">
+<div>
+<p class="font-body-sm text-on-surface-variant uppercase tracking-wider">Leves (Verde)</p>
+<p class="font-headline-lg text-[#22C55E] font-bold">6</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-[#16A34A]">check_circle</span>
+</div>
+</div>
+</div>
+<!-- Patient List (Bento Grid Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- CRITICAL PATIENT CARD -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden flex flex-col relative group">
+<div class="absolute left-0 top-0 bottom-0 w-[6px] bg-error"></div>
+<div class="p-md pl-lg flex flex-col h-full gap-sm">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-xs bg-error px-sm py-xs rounded-full">
+<span class="material-symbols-outlined text-on-error text-[14px]">local_hospital</span>
+<span class="font-label-bold text-on-error text-[10px] uppercase">Crítico</span>
+</div>
+<span class="font-label-bold text-error animate-pulse">0h 45m</span>
+</div>
+<div class="mt-xs">
+<h3 class="font-headline-md text-on-surface">Carlos Mendoza</h3>
+<p class="font-body-sm text-on-surface-variant">DNI: 45892104</p>
+</div>
+<div class="mt-sm bg-surface-container-low p-sm rounded-lg flex-grow">
+<p class="font-label-bold text-on-surface-variant mb-xs">Motivo de consulta</p>
+<p class="font-body-sm text-on-surface">Dolor torácico opresivo, diaforesis, dificultad respiratoria.</p>
+<div class="grid grid-cols-2 gap-xs mt-sm font-body-sm">
+<div><span class="text-on-surface-variant">PA:</span> 160/95</div>
+<div><span class="text-on-surface-variant">FC:</span> 110 lpm</div>
+<div><span class="text-on-surface-variant">SatO2:</span> 88%</div>
+<div><span class="text-on-surface-variant">Temp:</span> 37.2°C</div>
+</div>
+</div>
+<button class="mt-auto w-full bg-primary-container text-[#000000] font-label-bold py-sm rounded-full hover:bg-inverse-primary transition-colors flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">forward</span>
+                            Atender Ya
+                        </button>
+</div>
+</div>
+<!-- CRITICAL PATIENT CARD 2 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden flex flex-col relative">
+<div class="absolute left-0 top-0 bottom-0 w-[6px] bg-error"></div>
+<div class="p-md pl-lg flex flex-col h-full gap-sm">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-xs bg-error px-sm py-xs rounded-full">
+<span class="material-symbols-outlined text-on-error text-[14px]">local_hospital</span>
+<span class="font-label-bold text-on-error text-[10px] uppercase">Crítico</span>
+</div>
+<span class="font-label-bold text-error animate-pulse">0h 20m</span>
+</div>
+<div class="mt-xs">
+<h3 class="font-headline-md text-on-surface">María Quispe</h3>
+<p class="font-body-sm text-on-surface-variant">DNI: 10293847</p>
+</div>
+<div class="mt-sm bg-surface-container-low p-sm rounded-lg flex-grow">
+<p class="font-label-bold text-on-surface-variant mb-xs">Motivo de consulta</p>
+<p class="font-body-sm text-on-surface">Hemorragia activa en miembro inferior derecho, post accidente.</p>
+<div class="grid grid-cols-2 gap-xs mt-sm font-body-sm">
+<div><span class="text-on-surface-variant">PA:</span> 90/60</div>
+<div><span class="text-on-surface-variant">FC:</span> 125 lpm</div>
+<div><span class="text-on-surface-variant">SatO2:</span> 95%</div>
+<div><span class="text-on-surface-variant">Temp:</span> 36.5°C</div>
+</div>
+</div>
+<button class="mt-auto w-full bg-primary-container text-[#000000] font-label-bold py-sm rounded-full hover:bg-inverse-primary transition-colors flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">forward</span>
+                            Atender Ya
+                        </button>
+</div>
+</div>
+<!-- MODERATE PATIENT CARD -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden flex flex-col relative opacity-90 hover:opacity-100 transition-opacity">
+<div class="absolute left-0 top-0 bottom-0 w-[6px] bg-[#F97316]"></div>
+<div class="p-md pl-lg flex flex-col h-full gap-sm">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-xs bg-[#F97316] px-sm py-xs rounded-full">
+<span class="material-symbols-outlined text-white text-[14px]">warning</span>
+<span class="font-label-bold text-white text-[10px] uppercase">Moderado</span>
+</div>
+<span class="font-label-bold text-on-surface-variant">1h 15m</span>
+</div>
+<div class="mt-xs">
+<h3 class="font-headline-md text-on-surface">Juan Perez</h3>
+<p class="font-body-sm text-on-surface-variant">DNI: 74839201</p>
+</div>
+<div class="mt-sm bg-surface-container-low p-sm rounded-lg flex-grow">
+<p class="font-label-bold text-on-surface-variant mb-xs">Motivo de consulta</p>
+<p class="font-body-sm text-on-surface">Dolor abdominal agudo FID, náuseas, fiebre.</p>
+<div class="grid grid-cols-2 gap-xs mt-sm font-body-sm">
+<div><span class="text-on-surface-variant">PA:</span> 120/80</div>
+<div><span class="text-on-surface-variant">FC:</span> 95 lpm</div>
+<div><span class="text-on-surface-variant">SatO2:</span> 98%</div>
+<div><span class="text-on-surface-variant">Temp:</span> 38.5°C</div>
+</div>
+</div>
+<button class="mt-auto w-full bg-transparent border border-[#1ABDDB] text-[#1ABDDB] font-label-bold py-sm rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center gap-xs">
+                            Llamar Paciente
+                        </button>
+</div>
+</div>
+<!-- STABLE PATIENT CARD -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden flex flex-col relative opacity-80 hover:opacity-100 transition-opacity">
+<div class="absolute left-0 top-0 bottom-0 w-[6px] bg-[#22C55E]"></div>
+<div class="p-md pl-lg flex flex-col h-full gap-sm">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-xs bg-[#22C55E] px-sm py-xs rounded-full">
+<span class="material-symbols-outlined text-white text-[14px]">check_circle</span>
+<span class="font-label-bold text-white text-[10px] uppercase">Leve</span>
+</div>
+<span class="font-label-bold text-on-surface-variant">2h 30m</span>
+</div>
+<div class="mt-xs">
+<h3 class="font-headline-md text-on-surface">Ana Silva</h3>
+<p class="font-body-sm text-on-surface-variant">DNI: 85940312</p>
+</div>
+<div class="mt-sm bg-surface-container-low p-sm rounded-lg flex-grow">
+<p class="font-label-bold text-on-surface-variant mb-xs">Motivo de consulta</p>
+<p class="font-body-sm text-on-surface">Tos seca persistente, rinorrea, malestar general x 3 días.</p>
+<div class="grid grid-cols-2 gap-xs mt-sm font-body-sm">
+<div><span class="text-on-surface-variant">PA:</span> 110/70</div>
+<div><span class="text-on-surface-variant">FC:</span> 78 lpm</div>
+<div><span class="text-on-surface-variant">SatO2:</span> 99%</div>
+<div><span class="text-on-surface-variant">Temp:</span> 37.0°C</div>
+</div>
+</div>
+<button class="mt-auto w-full bg-transparent border border-outline-variant text-on-surface-variant font-label-bold py-sm rounded-full hover:bg-surface-container-high transition-colors flex items-center justify-center gap-xs">
+                            Llamar Paciente
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 bg-surface-bright dark:bg-surface-dim border-t border-surface-container-highest dark:border-outline-variant shadow-lg rounded-t-xl docked full-width bottom-0">
+<!-- Active: Cola -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-on-primary-fixed-variant text-on-primary-container dark:text-primary-fixed-dim rounded-full px-4 py-1 scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined text-[24px]">view_list</span>
+<span class="font-label-md text-label-md">Cola</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full px-4 py-1 transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">medical_services</span>
+<span class="font-label-md text-label-md">Triaje</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full px-4 py-1 transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">folder_shared</span>
+<span class="font-label-md text-label-md">Historial</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container dark:hover:bg-surface-container-high rounded-full px-4 py-1 transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">more_horiz</span>
+<span class="font-label-md text-label-md">Más</span>
+</a>
+</nav>
+<!-- Emergency FAB -->
+<button class="fixed bottom-24 right-md lg:bottom-md lg:right-xl w-14 h-14 rounded-full bg-primary-container shadow-lg flex items-center justify-center hover:scale-105 transition-transform z-50">
+<span class="material-symbols-outlined text-[#000000] text-[28px]">emergency</span>
+</button>
+</body></html>
