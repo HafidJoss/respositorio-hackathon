@@ -5,6 +5,8 @@ from fastapi import FastAPI
 from app.core.errors import registrar_manejadores_dominio
 
 logging.basicConfig(level=logging.INFO, force=True)
+from app.modules.auth.api.router import router as auth_router
+from app.modules.auth.domain import exceptions as auth_exc
 from app.modules.registro_pacientes.api.router import router as registro_pacientes_router
 from app.modules.registro_pacientes.domain import exceptions as rp_exc
 from app.modules.triaje.api.router import router as triaje_router
@@ -15,6 +17,7 @@ app = FastAPI(
     version="0.1.0",
 )
 
+app.include_router(auth_router)
 app.include_router(registro_pacientes_router)
 app.include_router(triaje_router)
 
@@ -27,10 +30,14 @@ registrar_manejadores_dominio(
         rp_exc.TipoRelacionInvalidaError,
         triaje_exc.NivelAtencionInvalidoError,
         triaje_exc.SignosVitalesInvalidosError,
+        auth_exc.DniInvalidoError,
+        auth_exc.PasswordInvalidaError,
+        auth_exc.RolInvalidoError,
     ),
     duplicados=(
         rp_exc.UsuarioDuplicadoError,
         rp_exc.VinculoDuplicadoError,
+        auth_exc.PersonalDuplicadoError,
     ),
     no_encontrados=(
         rp_exc.UsuarioNoEncontradoError,
@@ -38,6 +45,7 @@ registrar_manejadores_dominio(
         triaje_exc.PacienteNoExisteError,
         triaje_exc.TriajeNoEncontradoError,
     ),
+    no_autorizados=(auth_exc.CredencialesInvalidasError,),
 )
 
 

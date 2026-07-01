@@ -1,4 +1,4 @@
-import { Usuario, Paciente, UsuarioPaciente, Triaje } from '../types';
+import { Usuario, Paciente, UsuarioPaciente, Triaje, Personal, RolPersonal } from '../types';
 
 const API_BASE = '/api';
 
@@ -28,6 +28,35 @@ async function request<T>(url: string, options?: RequestInit): Promise<T> {
 }
 
 export const api = {
+  // --- Módulo auth ---
+
+  /**
+   * Registra una cuenta de personal (médico/enfermero).
+   * POST /auth/registro
+   */
+  registrarPersonal: (
+    dni: string,
+    nombre: string,
+    password: string,
+    rol: RolPersonal
+  ): Promise<Personal> => {
+    return request<Personal>('/auth/registro', {
+      method: 'POST',
+      body: JSON.stringify({ dni, nombre, password, rol }),
+    });
+  },
+
+  /**
+   * Autentica una cuenta de personal. 401 si las credenciales son inválidas.
+   * POST /auth/login
+   */
+  login: (dni: string, password: string): Promise<Personal> => {
+    return request<Personal>('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ dni, password }),
+    });
+  },
+
   // --- Módulo registro-pacientes ---
   
   /**

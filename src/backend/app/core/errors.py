@@ -15,6 +15,7 @@ def registrar_manejadores_dominio(
     invalidos: tuple[type[Exception], ...] = (),
     duplicados: tuple[type[Exception], ...] = (),
     no_encontrados: tuple[type[Exception], ...] = (),
+    no_autorizados: tuple[type[Exception], ...] = (),
 ) -> None:
     """Traduce excepciones de dominio a respuestas HTTP estructuradas.
 
@@ -27,3 +28,5 @@ def registrar_manejadores_dominio(
         app.add_exception_handler(excepcion, _manejador(409))
     for excepcion in no_encontrados:
         app.add_exception_handler(excepcion, _manejador(404))
+    for excepcion in no_autorizados:
+        app.add_exception_handler(excepcion, _manejador(401))

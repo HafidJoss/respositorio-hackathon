@@ -5,6 +5,16 @@ export interface Usuario {
   fecha_registro: string;
 }
 
+export type RolPersonal = 'medico' | 'enfermero';
+
+export interface Personal {
+  id: string; // UUID
+  dni: string; // exactamente 8 dígitos
+  nombre: string;
+  rol: RolPersonal;
+  fecha_registro: string;
+}
+
 export interface Paciente {
   id: string; // UUID
   dni: string; // exactamente 8 dígitos
@@ -34,7 +44,7 @@ export interface Triaje {
   peso: number;
   talla: number;
   presion_arterial: string;
-  sintomas: string;
+  sintomas: string[];
   nivel_atencion: NivelAtencion;
   fecha_registro: string;
 }

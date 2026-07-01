@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.core.config import settings  # noqa: E402
 from app.core.database import Base  # noqa: E402
+from app.modules.auth.infrastructure import orm_models as auth_models  # noqa: E402,F401
 from app.modules.registro_pacientes.infrastructure import orm_models as registro_pacientes_models  # noqa: E402,F401
 from app.modules.triaje.infrastructure import orm_models as triaje_models  # noqa: E402,F401
 

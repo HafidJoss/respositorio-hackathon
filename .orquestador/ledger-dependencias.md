@@ -17,7 +17,7 @@ dueño: compartido
 | DEP-003 | fase-0 de `historial-clinico` no existe o no está congelada | A | C | pendiente | local (historial-clinico) | 2026-07-01 |
 | DEP-004 | fase-0 de `notificaciones` no existe o no está congelada | A | C | pendiente | local (notificaciones) | 2026-07-01 |
 | DEP-005 | fase-0 de `dashboard-enfermero` no existe o no está congelada | A | C | pendiente | local (dashboard-enfermero) | 2026-07-01 |
-| DEP-006 | fase-0 de `dashboard-medico` no existe o no está congelada | A | C | pendiente | local (dashboard-medico) | 2026-07-01 |
+| DEP-006 | fase-0 de `dashboard-medico` no existe o no está congelada | A | C | pendiente — B construyó `PanelMedico.tsx` igual, por decisión explícita del dueño de sesión (Santiago) el 2026-07-01, priorizando MVP de hackathon. Sigue sin fase-0; C debe regularizar retroactivamente (ver `avance-frontend.md` y `trazabilidad.md`) | local (dashboard-medico) | 2026-07-01 |
 
 ## Regla de bloqueo local
 

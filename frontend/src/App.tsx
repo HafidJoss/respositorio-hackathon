@@ -3,30 +3,27 @@ import Login from './pages/Login'
 import EnfermeroCola from './pages/EnfermeroCola'
 import RegistroPaciente from './pages/RegistroPaciente'
 import NuevoTriaje from './pages/NuevoTriaje'
+import PanelMedico from './pages/PanelMedico'
 import { Paciente } from './types'
 
 export type Page = 'login' | 'enfermero-cola' | 'enfermero-registro-paciente' | 'enfermero-nuevo-triaje' | 'medico-monitoreo'
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('login')
-  const [role, setRole] = useState<'doctor' | 'nurse'>('doctor')
   const [userDni, setUserDni] = useState('')
+  const [userNombre, setUserNombre] = useState('')
   const [selectedPaciente, setSelectedPaciente] = useState<Paciente | null>(null)
 
-  const handleLogin = (selectedRole: 'doctor' | 'nurse', dni: string) => {
-    setRole(selectedRole)
+  const handleLogin = (selectedRole: 'doctor' | 'nurse', dni: string, nombre: string) => {
     setUserDni(dni)
-    if (selectedRole === 'nurse') {
-      setCurrentPage('enfermero-cola')
-    } else {
-      alert(`Sesión iniciada como Médico (DNI: ${dni}). La vista móvil de médico estará disponible pronto.`)
-      setCurrentPage('login')
-    }
+    setUserNombre(nombre)
+    setCurrentPage(selectedRole === 'nurse' ? 'enfermero-cola' : 'medico-monitoreo')
   }
 
   const handleLogout = () => {
     setCurrentPage('login')
     setUserDni('')
+    setUserNombre('')
     setSelectedPaciente(null)
   }
 
@@ -54,7 +51,7 @@ function App() {
         />
       )}
       {currentPage === 'enfermero-nuevo-triaje' && selectedPaciente && (
-        <NuevoTriaje 
+        <NuevoTriaje
           paciente={selectedPaciente}
           onBack={() => setCurrentPage('enfermero-cola')}
           onSuccess={() => {
@@ -62,6 +59,9 @@ function App() {
             setCurrentPage('enfermero-cola')
           }}
         />
+      )}
+      {currentPage === 'medico-monitoreo' && (
+        <PanelMedico userNombre={userNombre} onLogout={handleLogout} />
       )}
     </div>
   )
