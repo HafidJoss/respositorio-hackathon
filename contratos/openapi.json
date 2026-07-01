@@ -1,0 +1,896 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Sistema de Gestión de Urgencias y Triaje — Posta Médica Rural",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/usuarios": {
+      "post": {
+        "tags": [
+          "registro-pacientes"
+        ],
+        "summary": "Crear Usuario",
+        "operationId": "crear_usuario_usuarios_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuarioCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usuarios/{usuario_id}": {
+      "get": {
+        "tags": [
+          "registro-pacientes"
+        ],
+        "summary": "Obtener Usuario",
+        "operationId": "obtener_usuario_usuarios__usuario_id__get",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Usuario Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuarioResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pacientes": {
+      "post": {
+        "tags": [
+          "registro-pacientes"
+        ],
+        "summary": "Registrar Paciente",
+        "operationId": "registrar_paciente_pacientes_post",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PacienteCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PacienteRegistroResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "registro-pacientes"
+        ],
+        "summary": "Buscar Paciente Por Dni",
+        "operationId": "buscar_paciente_por_dni_pacientes_get",
+        "parameters": [
+          {
+            "name": "dni",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 8,
+              "title": "Dni"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PacienteResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/usuarios/{usuario_id}/pacientes": {
+      "post": {
+        "tags": [
+          "registro-pacientes"
+        ],
+        "summary": "Vincular Paciente A Usuario",
+        "operationId": "vincular_paciente_a_usuario_usuarios__usuario_id__pacientes_post",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Usuario Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VinculoCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VinculoResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "registro-pacientes"
+        ],
+        "summary": "Listar Pacientes De Usuario",
+        "operationId": "listar_pacientes_de_usuario_usuarios__usuario_id__pacientes_get",
+        "parameters": [
+          {
+            "name": "usuario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Usuario Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/VinculoResponse"
+                  },
+                  "title": "Response Listar Pacientes De Usuario Usuarios  Usuario Id  Pacientes Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/triajes": {
+      "post": {
+        "tags": [
+          "triaje"
+        ],
+        "summary": "Registrar Triaje",
+        "operationId": "registrar_triaje_triajes_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TriajeCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TriajeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/triajes/{triaje_id}": {
+      "get": {
+        "tags": [
+          "triaje"
+        ],
+        "summary": "Obtener Triaje",
+        "operationId": "obtener_triaje_triajes__triaje_id__get",
+        "parameters": [
+          {
+            "name": "triaje_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Triaje Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TriajeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pacientes/{paciente_id}/triajes": {
+      "get": {
+        "tags": [
+          "triaje"
+        ],
+        "summary": "Listar Triajes De Paciente",
+        "operationId": "listar_triajes_de_paciente_pacientes__paciente_id__triajes_get",
+        "parameters": [
+          {
+            "name": "paciente_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Paciente Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TriajeResponse"
+                  },
+                  "title": "Response Listar Triajes De Paciente Pacientes  Paciente Id  Triajes Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sintomas-comunes": {
+      "get": {
+        "tags": [
+          "triaje"
+        ],
+        "summary": "Listar Sintomas Comunes",
+        "operationId": "listar_sintomas_comunes_sintomas_comunes_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array",
+                  "title": "Response Listar Sintomas Comunes Sintomas Comunes Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "infraestructura"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "PacienteCreate": {
+        "properties": {
+          "dni": {
+            "type": "string",
+            "title": "Dni"
+          },
+          "nombres": {
+            "type": "string",
+            "title": "Nombres"
+          },
+          "apellidos": {
+            "type": "string",
+            "title": "Apellidos"
+          },
+          "edad": {
+            "type": "integer",
+            "title": "Edad"
+          },
+          "jurisdiccion_sis": {
+            "type": "string",
+            "title": "Jurisdiccion Sis"
+          },
+          "usuario_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Usuario Id"
+          },
+          "tipo_relacion": {
+            "type": "string",
+            "title": "Tipo Relacion"
+          }
+        },
+        "type": "object",
+        "required": [
+          "dni",
+          "nombres",
+          "apellidos",
+          "edad",
+          "jurisdiccion_sis",
+          "usuario_id",
+          "tipo_relacion"
+        ],
+        "title": "PacienteCreate"
+      },
+      "PacienteRegistroResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "dni": {
+            "type": "string",
+            "title": "Dni"
+          },
+          "nombres": {
+            "type": "string",
+            "title": "Nombres"
+          },
+          "apellidos": {
+            "type": "string",
+            "title": "Apellidos"
+          },
+          "edad": {
+            "type": "integer",
+            "title": "Edad"
+          },
+          "jurisdiccion_sis": {
+            "type": "string",
+            "title": "Jurisdiccion Sis"
+          },
+          "fecha_registro": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha Registro"
+          },
+          "ya_existia": {
+            "type": "boolean",
+            "title": "Ya Existia"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "dni",
+          "nombres",
+          "apellidos",
+          "edad",
+          "jurisdiccion_sis",
+          "fecha_registro",
+          "ya_existia"
+        ],
+        "title": "PacienteRegistroResponse"
+      },
+      "PacienteResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "dni": {
+            "type": "string",
+            "title": "Dni"
+          },
+          "nombres": {
+            "type": "string",
+            "title": "Nombres"
+          },
+          "apellidos": {
+            "type": "string",
+            "title": "Apellidos"
+          },
+          "edad": {
+            "type": "integer",
+            "title": "Edad"
+          },
+          "jurisdiccion_sis": {
+            "type": "string",
+            "title": "Jurisdiccion Sis"
+          },
+          "fecha_registro": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha Registro"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "dni",
+          "nombres",
+          "apellidos",
+          "edad",
+          "jurisdiccion_sis",
+          "fecha_registro"
+        ],
+        "title": "PacienteResponse"
+      },
+      "TriajeCreate": {
+        "properties": {
+          "paciente_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Paciente Id"
+          },
+          "nombres": {
+            "type": "string",
+            "title": "Nombres"
+          },
+          "apellidos": {
+            "type": "string",
+            "title": "Apellidos"
+          },
+          "dni": {
+            "type": "string",
+            "title": "Dni"
+          },
+          "edad": {
+            "type": "integer",
+            "title": "Edad"
+          },
+          "peso": {
+            "type": "number",
+            "title": "Peso"
+          },
+          "talla": {
+            "type": "number",
+            "title": "Talla"
+          },
+          "presion_arterial": {
+            "type": "string",
+            "title": "Presion Arterial"
+          },
+          "sintomas": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sintomas"
+          },
+          "nivel_atencion": {
+            "type": "string",
+            "title": "Nivel Atencion"
+          }
+        },
+        "type": "object",
+        "required": [
+          "paciente_id",
+          "nombres",
+          "apellidos",
+          "dni",
+          "edad",
+          "peso",
+          "talla",
+          "presion_arterial",
+          "sintomas",
+          "nivel_atencion"
+        ],
+        "title": "TriajeCreate"
+      },
+      "TriajeResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "paciente_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Paciente Id"
+          },
+          "nombres": {
+            "type": "string",
+            "title": "Nombres"
+          },
+          "apellidos": {
+            "type": "string",
+            "title": "Apellidos"
+          },
+          "dni": {
+            "type": "string",
+            "title": "Dni"
+          },
+          "edad": {
+            "type": "integer",
+            "title": "Edad"
+          },
+          "peso": {
+            "type": "number",
+            "title": "Peso"
+          },
+          "talla": {
+            "type": "number",
+            "title": "Talla"
+          },
+          "presion_arterial": {
+            "type": "string",
+            "title": "Presion Arterial"
+          },
+          "sintomas": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sintomas"
+          },
+          "nivel_atencion": {
+            "type": "string",
+            "title": "Nivel Atencion"
+          },
+          "fecha_registro": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha Registro"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "paciente_id",
+          "nombres",
+          "apellidos",
+          "dni",
+          "edad",
+          "peso",
+          "talla",
+          "presion_arterial",
+          "sintomas",
+          "nivel_atencion",
+          "fecha_registro"
+        ],
+        "title": "TriajeResponse"
+      },
+      "UsuarioCreate": {
+        "properties": {
+          "dni": {
+            "type": "string",
+            "title": "Dni"
+          },
+          "telefono": {
+            "type": "string",
+            "title": "Telefono"
+          }
+        },
+        "type": "object",
+        "required": [
+          "dni",
+          "telefono"
+        ],
+        "title": "UsuarioCreate"
+      },
+      "UsuarioResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "dni": {
+            "type": "string",
+            "title": "Dni"
+          },
+          "telefono": {
+            "type": "string",
+            "title": "Telefono"
+          },
+          "fecha_registro": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha Registro"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "dni",
+          "telefono",
+          "fecha_registro"
+        ],
+        "title": "UsuarioResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VinculoCreate": {
+        "properties": {
+          "paciente_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Paciente Id"
+          },
+          "tipo_relacion": {
+            "type": "string",
+            "title": "Tipo Relacion"
+          }
+        },
+        "type": "object",
+        "required": [
+          "paciente_id",
+          "tipo_relacion"
+        ],
+        "title": "VinculoCreate"
+      },
+      "VinculoResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "usuario_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Usuario Id"
+          },
+          "paciente_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Paciente Id"
+          },
+          "tipo_relacion": {
+            "type": "string",
+            "title": "Tipo Relacion"
+          },
+          "vigente": {
+            "type": "boolean",
+            "title": "Vigente"
+          },
+          "fecha_vinculacion": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Fecha Vinculacion"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "usuario_id",
+          "paciente_id",
+          "tipo_relacion",
+          "vigente",
+          "fecha_vinculacion"
+        ],
+        "title": "VinculoResponse"
+      }
+    }
+  }
+}
