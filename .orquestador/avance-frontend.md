@@ -1,48 +1,77 @@
 ---
-version: 0.1.0
+version: 1.0.0
 estado: activo
-dueño: B
-alcance_sesion_actual: [módulo/pieza + carpeta exacta]
+dueño: A
+alcance_sesion_actual: [declarar módulo + carpeta exacta al iniciar sesión]
 ---
-# Avance — Frontend
 
-> Fuente de criterios por pieza: `fase-0/{modulo}.md` congelada +
-> `contratos/openapi.json` (consumido, nunca editado a mano).
-> Archivo autogobernado — A nunca lo edita.
+# Avance — Backend
 
-## Pieza: {pantalla/dashboard}
+> Fuente de criterios por módulo: `fase-0/{modulo}.md` congelada.
+> Este archivo es autogobernado — B nunca lo edita, C no lo revisa
+> por rutina, solo ante dependencia cruzada real en el ledger.
 
-| Bloque | Criterio | Verificación |
-|---|---|---|
-| Fidelidad | Contenido obligatorio de fase-0 presente, nada de más ni de menos | comparar contra fase-0 §pantallas |
-| Aislamiento de rol | 0 componentes cruzados entre roles del sistema | comparación de árboles de componentes |
-| Capacidades = autorizaciones | Toda acción visible tiene su rol autorizado en fase-0/contrato | cruce exacto |
-| Principio Cero | Pieza muestra ≥1 registro real de la API — nunca fixture hardcodeado | smoke visual + inspección de red |
-| No-duplicación transversal | Patrones de error/carga/vacío/confirmación: un solo componente reutilizado, no uno por pantalla | grep de estructura repetida |
+## Módulo: registro-pacientes
 
-**Estado de la pieza:** ⬜ pendiente / 🔵 en progreso / ✅ cerrada
+| Criterio                  | Umbral                                                                       | Comando de verificación                                                  |
+| ------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| Cobertura dominio         | ≥ 80% branch                                                                 | `pytest tests/unit/registro-pacientes/domain --cov-branch`               |
+| Cobertura infraestructura | ≥ 70% line                                                                   | `pytest tests/unit/registro-pacientes/infrastructure`                    |
+| Contrato OpenAPI válido   | completo, sin drift                                                          | `python scripts/validate_openapi.py --module registro-pacientes`         |
+| Smoke test                | 200/201 con datos reales (seed nivel mínimo)                                 | `curl ...`                                                               |
+| Vocabulario canónico      | 0 sinónimos no autorizados (fase-0 glosario)                                 | `grep -r "cliente\|apoderado\|encargado" src/registro-pacientes/domain/` |
+| Arquitectura DIP          | 0 imports infra→domain                                                       | `python scripts/check_dip.py --module registro-pacientes`                |
+| SAST / secrets            | 0 hallazgos CRITICAL                                                         | `bandit -r src/registro-pacientes/ -ll` · `gitleaks detect`              |
+| Principio Cero            | Smoke E2E contra datos reales sembrados, no fixture fijo                     | ver §5 del orquestador                                                   |
+| Código limpio             | 0 funciones >20 líneas sin excepción documentada · 0 comentarios redundantes | linter + revisión estructural                                            |
+| Patrón justificado        | Todo patrón usado está en 00-arquitectura-y-calidad.md §2                    | revisión manual contra §2                                                |
+| Migraciones versionadas   | 0 cambios de esquema manuales                                                | `git log -- migrations/` no vacío para todo cambio de schema             |
+
+**Estado del módulo:** ⬜ pendiente
+
+## Módulo: triaje
+
+| Criterio                                  | Umbral                                                                       | Comando de verificación                                         |
+| ----------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Cobertura dominio                         | ≥ 80% branch                                                                 | `pytest tests/unit/triaje/domain --cov-branch`                  |
+| Cobertura infraestructura                 | ≥ 70% line                                                                   | `pytest tests/unit/triaje/infrastructure`                       |
+| Contrato OpenAPI válido                   | completo, sin drift                                                          | `python scripts/validate_openapi.py --module triaje`            |
+| Smoke test                                | 200/201 con datos reales (seed nivel mínimo)                                 | `curl ...`                                                      |
+| Vocabulario canónico                      | 0 sinónimos no autorizados (fase-0 glosario)                                 | `grep -r "consulta\|prioridad\|diagnostico" src/triaje/domain/` |
+| Arquitectura DIP                          | 0 imports infra→domain                                                       | `python scripts/check_dip.py --module triaje`                   |
+| SAST / secrets                            | 0 hallazgos CRITICAL                                                         | `bandit -r src/triaje/ -ll` · `gitleaks detect`                 |
+| Principio Cero                            | Smoke E2E contra datos reales sembrados, no fixture fijo                     | ver §5 del orquestador                                          |
+| Código limpio                             | 0 funciones >20 líneas sin excepción documentada · 0 comentarios redundantes | linter + revisión estructural                                   |
+| Patrón justificado                        | Todo patrón usado está en 00-arquitectura-y-calidad.md §2                    | revisión manual contra §2                                       |
+| Migraciones versionadas                   | 0 cambios de esquema manuales                                                | `git log -- migrations/` no vacío para todo cambio de schema    |
+| Fallo de notificación no bloquea guardado | 0 rollback de triaje por error de notificación                               | test de fallo simulado del puerto de notificación               |
+
+**Estado del módulo:** ⬜ pendiente
 
 ## Regla de corrección automática
 
-PRIMERO: ¿el criterio depende de algo registrado en ledger-dependencias.md?
-SÍ → 0 intentos, detención inmediata, bloqueo LOCAL a esta pieza —
-seguir con otras piezas independientes
-NO → ciclo normal de 3 intentos (igual que backend)
-
-## No regresión — regla reforzada
-Al modificar cualquier componente TRANSVERSAL (no una pieza
-individual) → reverificar TODAS las piezas ya cerradas, no solo
-la que motivó el cambio. Este es el tipo de regresión más caro —
-nunca se salta, aunque parezca lento.
+Intento 1 → analizar + corregir → re-ejecutar
+Intento 2 → estrategia alternativa → re-ejecutar
+Intento 3 → documentar estado exacto → detención
+Tras 3 intentos → DETENCIÓN, espera instrucción humana
 
 ## Formato de detención
-PIEZA: {nombre}
-CRITERIO FALLIDO: {...}
-TIPO: {fidelidad | aislamiento-de-rol | principio-cero | transversal | dependencia-bloqueante}
-VALOR OBTENIDO / ESPERADO: {...}
-BLOQUEO: {local — sigo con otras piezas | no aplica global en este archivo}
+
+MÓDULO: {módulo}
+CRITERIO FALLIDO: {criterio exacto}
+VALOR OBTENIDO: {...}
+VALOR ESPERADO: {...}
+INTENTOS: {1|2|3}
 QUÉ NECESITA EL HUMANO: {...}
+SIGUIENTE PASO: {...}
+
+## No regresión
+
+Antes de cerrar módulo N, verificar que módulos 1..N-1 siguen en
+verde en un solo run. Regresión bloquea avance — no se salta.
 
 ## Log de avance
-| Fecha | Pieza | Estado | Evidencia |
-|---|---|---|---|
+
+| Fecha | Tarea | Estado | Evidencia |
+| ----- | ----- | ------ | --------- |
+
