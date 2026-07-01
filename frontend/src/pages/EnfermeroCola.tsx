@@ -98,9 +98,10 @@ const INITIAL_PATIENTS: PacienteMock[] = [
 interface EnfermeroColaProps {
   onLogout: () => void;
   userDni: string;
+  onNavigateToRegister: () => void;
 }
 
-const EnfermeroCola: React.FC<EnfermeroColaProps> = ({ onLogout }) => {
+const EnfermeroCola: React.FC<EnfermeroColaProps> = ({ onLogout, onNavigateToRegister }) => {
   const [patients, setPatients] = useState<PacienteMock[]>(INITIAL_PATIENTS)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterNivel, setFilterNivel] = useState<'all' | 'critico' | 'moderado' | 'leve'>('all')
@@ -158,7 +159,7 @@ const EnfermeroCola: React.FC<EnfermeroColaProps> = ({ onLogout }) => {
           </li>
           <li>
             <button 
-              onClick={() => alert("Formulario de Nuevo Triaje en desarrollo")}
+              onClick={onNavigateToRegister}
               className="w-full flex items-center gap-3 px-4 py-3 text-on-surface-variant font-semibold hover:bg-surface-container-high rounded-full transition-colors text-left"
             >
               <span className="material-symbols-outlined text-[20px]">emergency</span>
@@ -360,7 +361,7 @@ const EnfermeroCola: React.FC<EnfermeroColaProps> = ({ onLogout }) => {
           <span className="text-xs font-semibold">Cola</span>
         </button>
         <button 
-          onClick={() => alert("Formulario de Nuevo Triaje en desarrollo")}
+          onClick={onNavigateToRegister}
           className="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container rounded-full px-4 py-1 transition-colors"
         >
           <span className="material-symbols-outlined text-[24px]">medical_services</span>
@@ -377,7 +378,7 @@ const EnfermeroCola: React.FC<EnfermeroColaProps> = ({ onLogout }) => {
 
       {/* Emergency FAB */}
       <button 
-        onClick={() => alert("Formulario de Nuevo Triaje en desarrollo")}
+        onClick={onNavigateToRegister}
         className="fixed bottom-20 right-4 lg:bottom-4 lg:right-8 w-14 h-14 rounded-full bg-primary-container shadow-lg flex items-center justify-center hover:scale-105 transition-transform z-50"
       >
         <span className="material-symbols-outlined text-primary text-[28px] filled">emergency</span>
