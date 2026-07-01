@@ -100,7 +100,7 @@ const NuevoTriaje: React.FC<NuevoTriajeProps> = ({ paciente, onBack, onSuccess }
         nivel_atencion: nivelAtencion,
       });
 
-      alert('¡Registro de triaje completado exitosamente!');
+      alert('Triaje guardado en el Historial Clínico del paciente.');
       onSuccess();
     } catch (err: any) {
       setError(err.message || 'Error al guardar el triaje.');
@@ -116,8 +116,8 @@ const NuevoTriaje: React.FC<NuevoTriajeProps> = ({ paciente, onBack, onSuccess }
         {/* Header */}
         <div className="flex items-center justify-between mb-6 border-b border-surface-container-highest pb-3">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-primary text-[28px] filled">medical_services</span>
-            <h2 className="text-xl font-bold text-primary">Registrar Nuevo Triaje</h2>
+            <span className="material-symbols-outlined text-primary text-[28px] filled">assignment</span>
+            <h2 className="text-xl font-bold text-primary">Cuestionario Clínico de Triaje</h2>
           </div>
           <button 
             onClick={onBack}
@@ -149,80 +149,84 @@ const NuevoTriaje: React.FC<NuevoTriajeProps> = ({ paciente, onBack, onSuccess }
         )}
 
         {/* Formulario */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          
-          {/* Signos Vitales */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-on-surface-variant" htmlFor="peso">
-                Peso (kg)
-              </label>
-              <input
-                id="peso"
-                type="number"
-                step="0.1"
-                min="0"
-                value={peso}
-                onChange={(e) => setPeso(e.target.value)}
-                placeholder="Ej: 70.5"
-                className="w-full px-3 py-2 border border-outline-variant rounded-lg outline-none text-sm focus:ring-2 focus:ring-primary focus:border-primary"
-              />
-            </div>
-            <div className="space-y-1">
-              <label className="text-xs font-bold text-on-surface-variant" htmlFor="talla">
-                Talla (m)
-              </label>
-              <input
-                id="talla"
-                type="number"
-                step="0.01"
-                min="0"
-                value={talla}
-                onChange={(e) => setTalla(e.target.value)}
-                placeholder="Ej: 1.75"
-                className="w-full px-3 py-2 border border-outline-variant rounded-lg outline-none text-sm focus:ring-2 focus:ring-primary focus:border-primary"
-              />
-            </div>
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-6">
 
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-on-surface-variant" htmlFor="presion">
-              Presión Arterial (PA)
-            </label>
-            <input
-              id="presion"
-              type="text"
-              value={presionArterial}
-              onChange={(e) => setPresionArterial(e.target.value)}
-              placeholder="Ej: 120/80"
-              className="w-full px-3 py-2 border border-outline-variant rounded-lg outline-none text-sm focus:ring-2 focus:ring-primary focus:border-primary"
-            />
-          </div>
-
-          {/* Selección de Síntomas */}
+          {/* Pregunta 1 — Signos Vitales */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-on-surface-variant">
-              Síntomas del Paciente
-            </label>
+            <p className="text-sm font-bold text-primary">1. Signos Vitales</p>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-on-surface-variant" htmlFor="peso">
+                  Peso (kg)
+                </label>
+                <input
+                  id="peso"
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  value={peso}
+                  onChange={(e) => setPeso(e.target.value)}
+                  placeholder="Ej: 70.5"
+                  className="w-full px-3 py-2 border border-outline-variant rounded-lg outline-none text-sm focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-on-surface-variant" htmlFor="talla">
+                  Talla (m)
+                </label>
+                <input
+                  id="talla"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={talla}
+                  onChange={(e) => setTalla(e.target.value)}
+                  placeholder="Ej: 1.75"
+                  className="w-full px-3 py-2 border border-outline-variant rounded-lg outline-none text-sm focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-on-surface-variant" htmlFor="presion">
+                Presión Arterial (PA)
+              </label>
+              <input
+                id="presion"
+                type="text"
+                value={presionArterial}
+                onChange={(e) => setPresionArterial(e.target.value)}
+                placeholder="Ej: 120/80"
+                className="w-full px-3 py-2 border border-outline-variant rounded-lg outline-none text-sm focus:ring-2 focus:ring-primary focus:border-primary"
+              />
+            </div>
+          </div>
+
+          {/* Pregunta 2 — Síntomas y Condiciones (checkboxes) */}
+          <div className="space-y-2">
+            <p className="text-sm font-bold text-primary">2. Síntomas y Condiciones</p>
+            <p className="text-xs text-on-surface-variant -mt-1">Marque todas las que apliquen.</p>
             {loadingCatalogo ? (
               <p className="text-xs text-outline">Cargando síntomas...</p>
             ) : (
-              <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto p-1 bg-surface-container rounded-lg border border-outline-variant">
+              <div className="grid grid-cols-2 gap-1.5 max-h-44 overflow-y-auto p-2 bg-surface-container rounded-lg border border-outline-variant">
                 {sintomasCatalogo.map((sintoma) => {
-                  const selected = sintomasSeleccionados.includes(sintoma);
+                  const inputId = `sintoma-${sintoma.replace(/\s+/g, '-')}`;
                   return (
-                    <button
+                    <label
                       key={sintoma}
-                      type="button"
-                      onClick={() => toggleSintoma(sintoma)}
-                      className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
-                        selected 
-                          ? 'bg-primary text-white clinical-shadow border border-primary'
-                          : 'bg-white text-on-surface-variant border border-outline-variant hover:bg-surface-container-high'
-                      }`}
+                      htmlFor={inputId}
+                      className="flex items-center gap-2 px-2 py-1.5 rounded-lg text-sm text-on-surface hover:bg-surface-container-high cursor-pointer"
                     >
+                      <input
+                        id={inputId}
+                        type="checkbox"
+                        checked={sintomasSeleccionados.includes(sintoma)}
+                        onChange={() => toggleSintoma(sintoma)}
+                        className="w-4 h-4 text-primary border-outline-variant rounded focus:ring-primary"
+                      />
                       {sintoma}
-                    </button>
+                    </label>
                   );
                 })}
               </div>
@@ -245,47 +249,74 @@ const NuevoTriaje: React.FC<NuevoTriajeProps> = ({ paciente, onBack, onSuccess }
                 Agregar
               </button>
             </div>
+            {sintomasSeleccionados.length > 0 && (
+              <div className="flex flex-wrap gap-1">
+                {sintomasSeleccionados.map(s => (
+                  <span key={s} className="text-xs bg-primary text-white px-2 py-0.5 rounded-full">{s}</span>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Nivel de Atención Manual */}
-          <div className="space-y-1">
-            <label className="text-xs font-bold text-on-surface-variant ml-1">
-              Clasificación de Nivel de Atención (Manualmente por Enfermero)
-            </label>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                type="button"
-                onClick={() => setNivelAtencion('critico')}
-                className={`py-2 rounded-lg text-xs font-bold transition-all border ${
+          {/* Pregunta 3 — Nivel de Atención (radio) */}
+          <div className="space-y-2">
+            <p className="text-sm font-bold text-primary">3. Nivel de Atención</p>
+            <p className="text-xs text-on-surface-variant -mt-1">Clasificación manual por el enfermero.</p>
+            <div className="grid grid-cols-1 gap-2">
+              <label
+                htmlFor="nivel-critico"
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold border cursor-pointer transition-all ${
                   nivelAtencion === 'critico'
                     ? 'bg-error text-white border-error ring-2 ring-error'
                     : 'bg-white text-error border-error/30 hover:bg-error-container/10'
                 }`}
               >
+                <input
+                  id="nivel-critico"
+                  type="radio"
+                  name="nivelAtencion"
+                  checked={nivelAtencion === 'critico'}
+                  onChange={() => setNivelAtencion('critico')}
+                  className="w-4 h-4"
+                />
                 CRÍTICO (Rojo)
-              </button>
-              <button
-                type="button"
-                onClick={() => setNivelAtencion('moderado')}
-                className={`py-2 rounded-lg text-xs font-bold transition-all border ${
+              </label>
+              <label
+                htmlFor="nivel-moderado"
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold border cursor-pointer transition-all ${
                   nivelAtencion === 'moderado'
                     ? 'bg-orange-500 text-white border-orange-500 ring-2 ring-orange-500'
                     : 'bg-white text-orange-600 border-orange-200 hover:bg-orange-100/30'
                 }`}
               >
+                <input
+                  id="nivel-moderado"
+                  type="radio"
+                  name="nivelAtencion"
+                  checked={nivelAtencion === 'moderado'}
+                  onChange={() => setNivelAtencion('moderado')}
+                  className="w-4 h-4"
+                />
                 MODERADO (Naranja)
-              </button>
-              <button
-                type="button"
-                onClick={() => setNivelAtencion('leve')}
-                className={`py-2 rounded-lg text-xs font-bold transition-all border ${
+              </label>
+              <label
+                htmlFor="nivel-leve"
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-bold border cursor-pointer transition-all ${
                   nivelAtencion === 'leve'
                     ? 'bg-green-600 text-white border-green-600 ring-2 ring-green-600'
                     : 'bg-white text-green-600 border-green-200 hover:bg-green-100/30'
                 }`}
               >
+                <input
+                  id="nivel-leve"
+                  type="radio"
+                  name="nivelAtencion"
+                  checked={nivelAtencion === 'leve'}
+                  onChange={() => setNivelAtencion('leve')}
+                  className="w-4 h-4"
+                />
                 LEVE (Verde)
-              </button>
+              </label>
             </div>
           </div>
 
@@ -295,7 +326,7 @@ const NuevoTriaje: React.FC<NuevoTriajeProps> = ({ paciente, onBack, onSuccess }
             disabled={loading}
             className="w-full bg-primary text-white hover:bg-primary-container font-bold py-3.5 rounded-lg flex items-center justify-center gap-2 clinical-shadow transition-soft active:scale-[0.98] text-sm"
           >
-            {loading ? 'Registrando Triaje...' : 'Guardar y Confirmar Registro'}
+            {loading ? 'Registrando Triaje...' : 'Guardar en Historial Clínico'}
             <span className="material-symbols-outlined">save_alt</span>
           </button>
 

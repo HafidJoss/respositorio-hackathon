@@ -1,33 +1,76 @@
 import React, { useState } from 'react'
+import { api } from '../services/api'
+import { RolPersonal } from '../types'
 
 interface LoginProps {
-  onLogin: (role: 'doctor' | 'nurse', dni: string) => void;
+  onLogin: (role: 'doctor' | 'nurse', dni: string, nombre: string) => void;
 }
 
+const rolARole = (rol: RolPersonal): 'doctor' | 'nurse' => (rol === 'medico' ? 'doctor' : 'nurse')
+const roleARol = (role: 'doctor' | 'nurse'): RolPersonal => (role === 'doctor' ? 'medico' : 'enfermero')
+
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
+  const [mode, setMode] = useState<'login' | 'signup'>('login')
   const [role, setRole] = useState<'doctor' | 'nurse'>('doctor')
   const [dni, setDni] = useState('')
+  const [nombre, setNombre] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    // Validación básica de DNI (8 dígitos según .orquestador)
+
     const dniRegex = /^\d{8}$/
     if (!dniRegex.test(dni)) {
       setError('El DNI debe contener exactamente 8 dígitos.')
       return
     }
-
     if (!password) {
       setError('Por favor ingrese su contraseña.')
       return
     }
 
+    setLoading(true)
     setError('')
-    onLogin(role, dni)
+    try {
+      const personal = await api.login(dni, password)
+      onLogin(rolARole(personal.rol), personal.dni, personal.nombre)
+    } catch (err: any) {
+      setError(err.message || 'DNI o contraseña incorrectos.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleCrearSesion = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    const dniRegex = /^\d{8}$/
+    if (!dniRegex.test(dni)) {
+      setError('El DNI debe contener exactamente 8 dígitos.')
+      return
+    }
+    if (!nombre.trim()) {
+      setError('Ingrese su nombre completo.')
+      return
+    }
+    if (password.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres.')
+      return
+    }
+
+    setLoading(true)
+    setError('')
+    try {
+      const personal = await api.registrarPersonal(dni, nombre, password, roleARol(role))
+      onLogin(rolARole(personal.rol), personal.dni, personal.nombre)
+    } catch (err: any) {
+      setError(err.message || 'Error al crear la sesión.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -53,14 +96,16 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         <div className="bg-surface-container-lowest border border-outline-variant p-6 rounded-xl clinical-shadow">
           <div className="mb-6 text-center">
             <h2 className="text-xl md:text-2xl font-bold text-on-surface">
-              Bienvenido al Portal Clínico
+              {mode === 'login' ? 'Bienvenido al Portal Clínico' : 'Crear Sesión'}
             </h2>
             <p className="text-sm text-on-surface-variant mt-1">
-              Ingrese sus credenciales para acceder al sistema
+              {mode === 'login'
+                ? 'Ingrese sus credenciales para acceder al sistema'
+                : 'Registre sus datos para crear una cuenta de personal'}
             </p>
           </div>
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-4" onSubmit={mode === 'login' ? handleLogin : handleCrearSesion}>
             {/* Selección de Rol */}
             <div className="space-y-1">
               <label className="text-sm font-semibold text-on-surface-variant ml-1">
@@ -92,6 +137,11 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                   Soy Enfermero
                 </button>
               </div>
+              {mode === 'login' && (
+                <p className="text-xs text-on-surface-variant ml-1">
+                  El rol se determina por su cuenta real; esta selección solo se usa al crear una sesión nueva.
+                </p>
+              )}
             </div>
 
             {/* DNI / Usuario */}
@@ -115,15 +165,39 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               </div>
             </div>
 
+            {/* Nombre completo (solo crear sesión) */}
+            {mode === 'signup' && (
+              <div className="space-y-1">
+                <label className="text-sm font-semibold text-on-surface-variant ml-1" htmlFor="nombre">
+                  Nombre completo
+                </label>
+                <div className="relative group">
+                  <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">
+                    person
+                  </span>
+                  <input
+                    id="nombre"
+                    type="text"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    placeholder="Ej: Ana Quispe"
+                    className="w-full pl-10 pr-4 py-3 bg-white border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm outline-none transition-soft"
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Contraseña */}
             <div className="space-y-1">
               <div className="flex justify-between items-center px-1">
                 <label className="text-sm font-semibold text-on-surface-variant" htmlFor="password">
                   Contraseña
                 </label>
-                <a className="text-xs text-primary hover:underline" href="#">
-                  ¿Olvidó su clave?
-                </a>
+                {mode === 'login' && (
+                  <a className="text-xs text-primary hover:underline" href="#">
+                    ¿Olvidó su clave?
+                  </a>
+                )}
               </div>
               <div className="relative group">
                 <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">
@@ -156,28 +230,43 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               </p>
             )}
 
-            {/* Mantener sesión iniciada */}
-            <div className="flex items-center px-1">
-              <input
-                id="remember"
-                type="checkbox"
-                className="w-4 h-4 text-primary border-outline-variant rounded focus:ring-primary"
-              />
-              <label
-                className="ml-2 text-sm text-on-surface-variant cursor-pointer select-none"
-                htmlFor="remember"
-              >
-                Mantener sesión iniciada
-              </label>
-            </div>
+            {/* Mantener sesión iniciada (solo login) */}
+            {mode === 'login' && (
+              <div className="flex items-center px-1">
+                <input
+                  id="remember"
+                  type="checkbox"
+                  className="w-4 h-4 text-primary border-outline-variant rounded focus:ring-primary"
+                />
+                <label
+                  className="ml-2 text-sm text-on-surface-variant cursor-pointer select-none"
+                  htmlFor="remember"
+                >
+                  Mantener sesión iniciada
+                </label>
+              </div>
+            )}
 
             {/* Botón de Enviar */}
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-primary-container text-white hover:text-white font-semibold py-4 rounded-lg flex items-center justify-center gap-2 clinical-shadow transition-soft active:scale-[0.98]"
+              disabled={loading}
+              className="w-full bg-primary hover:bg-primary-container text-white hover:text-white font-semibold py-4 rounded-lg flex items-center justify-center gap-2 clinical-shadow transition-soft active:scale-[0.98] disabled:opacity-60"
             >
-              Iniciar Sesión
-              <span className="material-symbols-outlined">login</span>
+              {loading ? 'Procesando...' : mode === 'login' ? 'Iniciar Sesión' : 'Crear sesión'}
+              <span className="material-symbols-outlined">{mode === 'login' ? 'login' : 'person_add'}</span>
+            </button>
+
+            {/* Alternar entre iniciar sesión y crear sesión */}
+            <button
+              type="button"
+              onClick={() => {
+                setMode(mode === 'login' ? 'signup' : 'login')
+                setError('')
+              }}
+              className="w-full text-center text-sm text-primary hover:underline font-semibold"
+            >
+              {mode === 'login' ? '¿No tienes cuenta? Crear sesión' : '¿Ya tienes cuenta? Iniciar sesión'}
             </button>
           </form>
         </div>
